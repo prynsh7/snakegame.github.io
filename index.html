@@ -7,16 +7,63 @@
 <body>
     <div id="score">0</div>
     <canvas id="snakeboard" width="400" height="400"></canvas>
+    <div id="controls" style="text-align:center;width:480px;">
+        <button id = "moveup">UP</button><br><br>
+        <button id ="moveleft">LEFT</button>
+        <button id ="moveright">RIGHT</button><br><br>
+        <button id ="movedown">DOWN</button>
+      </div>
+
+    
+    
+    
     <style>
         #snakeboard {
-          position: absolute;
+          position: relative;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, 0%);
         }
+
         #score {
-        text-align: center;
-        font-size: 140px;
+    height: 20%;
+    padding: 5px;
+    width: 50%;
+    margin: auto;
+    margin-top: 0%;
+    margin-bottom: 2vh;
+    border-radius: 30px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    font-size: 140px;
+    border-style: none;
+      }
+      #controls{
+          margin: auto;
+          margin-top: 2vh;
+          
+      }
+      button{
+          cursor: pointer;
+          margin: 5px;
+          font-size: 1.2rem;
+          height: 2.5rem;
+          border: none;
+          border-radius: 10px;
+          color: #fff;
+          background-color: black;
+          outline: none;
+          box-shadow: 0 0.3rem rgba(121, 121, 121, 0.70);
+      }
+
+      button:hover{
+          filter: brightness(150%);
+      }
+
+      button:active{
+          transform: translate(0,0.3rem);
+          box-shadow: 0 0.1rem rgba(225, 225, 225, 0.7);
       }
       </style>
 </body>
@@ -49,13 +96,14 @@
 
     gen_food();
 
-    document.addEventListener("keydown", change_direction);
+    document.addEventListener("keydown", change_directionk);
+    document.addEventListener("mousedown", change_directionm);
 
     function main() {
         if (game_has_ended()) return;
 
         changing_direction = false;
-        setTimeout(function onTick() {
+        setTimeout(function start() {
         clearCanvas();
         draw_food();
         move_snake();
@@ -121,12 +169,12 @@
     }
 
 
-    function change_direction(event){
+    function change_directionk(event){
         const LEFT_KEY = 37;
         const RIGHT_KEY = 39;
         const UP_KEY = 38;
         const DOWN_KEY =  40;
-
+        
         if (changing_direction) return;
         changing_direction = true;
 
@@ -156,6 +204,7 @@
                 dx = 0;
                 dy = 10;
             }
+
     }
 
     function move_snake() {
@@ -173,6 +222,33 @@
         }
     }
     
+    function change_directionm(){
+        
+        const goingUp = dy === -10;
+        const goingDown = dy === 10;
+        const goingRight = dx === 10;
+        const goingLeft = dx === -10;
+
+        if (changing_direction) return;
+        changing_direction = true;
+
+        document.getElementById("moveup").addEventListener("click", function moveup(){
+            if(!goingDown) {dy = -10;
+            dx = 0;}
+        })
+        document.getElementById("movedown").addEventListener("click", function movedown(){
+            if(!goingUp) {dy = 10;
+            dx = 0;}
+        })
+        document.getElementById("moveleft").addEventListener("click", function moveleft(){
+            if(!goingRight){ dy = 0;
+            dx = -10;}
+        })
+        document.getElementById("moveright").addEventListener("click", function moveright(){
+            if(!goingLeft) {dy = 0;
+            dx = 10;}
+        })
+    }
 
 
 
